@@ -26,15 +26,13 @@ func main() {
 	ledStrip := ws2812.New(machine.D0)
 
 	// Convert the animation duration to milliseconds for performance.
-	// animationDurationMs := animation.DurationToMs(animationDuration)
+	animationDurationMs := animation.DurationToMs(animationDuration)
 
 	start := time.Now()
 	for t := range time.Tick(time.Second / frameRate) {
-		_ = t
-		_ = start
-		// ms := animation.DurationToMs(t.Sub(start)) % animationDurationMs
-		// color := animationFunc(ms, animationDurationMs)
-		drawColor(ledStrip, animation.RGB{R: maxBrightness, G: maxBrightness, B: maxBrightness})
+		ms := animation.DurationToMs(t.Sub(start)) % animationDurationMs
+		color := animationFunc(ms, animationDurationMs)
+		drawColor(ledStrip, color)
 	}
 }
 

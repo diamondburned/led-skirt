@@ -57,16 +57,20 @@ func NewBreathingAnimation(rgb RGB, breathingFunction BreathingFunction) Animati
 		// fast path
 		return func(d, max Milliseconds) RGB {
 			scale := breathingFunction(d, max)
-			c := uint8(uint16(rgb.R) * scale / 0xFFFF)
+			c := scaleColor(rgb.R, scale)
 			return RGB{R: c, G: c, B: c}
 		}
 	}
 	return func(d, max Milliseconds) RGB {
 		scale := breathingFunction(d, max)
 		return RGB{
-			R: uint8(uint16(rgb.R) * scale / 0xFFFF),
-			G: uint8(uint16(rgb.G) * scale / 0xFFFF),
-			B: uint8(uint16(rgb.B) * scale / 0xFFFF),
+			R: scaleColor(rgb.R, scale),
+			G: scaleColor(rgb.G, scale),
+			B: scaleColor(rgb.B, scale),
 		}
 	}
+}
+
+func scaleColor(c uint8, scale uint16) uint8 {
+	return uint8(uint32(c) * uint32(scale) / 0xFFFF)
 }

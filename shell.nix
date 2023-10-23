@@ -1,7 +1,12 @@
-{}:
+{ pkgs ? import <nixpkgs> {} }:
+
+let
+	fetchFromGitHub = pkgs.fetchFromGitHub;
+in
 
 let
 	pkgs = import ./nix/pkgs.nix {
+		inherit fetchFromGitHub;
 		overlays = [
 			(self: super: {
 				go = super.go_1_21;

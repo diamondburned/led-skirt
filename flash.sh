@@ -4,7 +4,7 @@ set -eo pipefail
 main() {
 	if [[ "$1" == "-h" || "$1" == "--help" ]]; then
 		log "Usage: $0 <preset> - flash given preset"
-		log "	    $0          - list available presets"
+		log "       $0          - list available presets"
 		return
 	fi
 

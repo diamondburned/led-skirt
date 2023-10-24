@@ -62,25 +62,23 @@ func hsv2rgb(hsv HSV, r, g, b *uint8) {
 	// Perform actual calculations
 
 	// Bottom level: v * (1.0 - s)
-	// --> (v * (255 - s) + error_corr + 1) / 256
-	ww := uint16(v) * (255 - uint16(s)) // We don't use ^s to prevent size-promotion side effects
-	ww += 1                             // Error correction
-	ww += ww >> 8                       // Error correction
+	// --> (v * ^s + error_corr + 1) / 256
+	ww := uint16(v) * uint16(^s) // Use ^s because Go doesn't have size-promotion issues
+	ww += 1                      // Error correction
+	ww += ww >> 8                // Error correction
 	*b = uint8(ww >> 8)
 
 	hFraction := h & 0xff // 0...255
 
+	var d uint32
 	if sextant&1 == 0 {
 		// *r = ...slope_up...;
-		d := uint32(v) * (uint32(255<<8) - uint32(uint16(s)*(256-hFraction)))
-		d += d >> 8    // Error correction
-		d += uint32(v) // Error correction
-		*r = uint8(d >> 16)
+		d = uint32(v) * (255<<8 - uint32(uint16(s)*(256-hFraction)))
 	} else {
 		// *r = ...slope_down...;
-		d := uint32(v) * (uint32(255<<8) - uint32(uint16(s)*hFraction))
-		d += d >> 8    // Error correction
-		d += uint32(v) // Error correction
-		*r = uint8(d >> 16)
+		d = uint32(v) * (255<<8 - uint32(uint16(s)*hFraction))
 	}
+	d += d >> 8    // Error correction
+	d += uint32(v) // Error correction
+	*r = uint8(d >> 16)
 }

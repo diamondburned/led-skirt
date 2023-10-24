@@ -6,5 +6,6 @@ miniskirt.
 ## Flashing
 
 ```sh
-tinygo flash -target $TINYGO_TARGET
+./flash.sh # list all presets
+./flash.sh rainbow # flash the rainbow preset
 ```

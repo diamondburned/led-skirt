@@ -77,9 +77,9 @@ func BenchmarkBreatheSine(b *testing.B) {
 			breatheSineFast(500, 1000)
 		}
 	})
-	b.Run("accurate", func(b *testing.B) {
-		for i := 0; i < b.N; i++ {
-			breatheSineAccurate(500, 1000)
-		}
-	})
+	// b.Run("accurate", func(b *testing.B) {
+	// 	for i := 0; i < b.N; i++ {
+	// 		breatheSineAccurate(500, 1000)
+	// 	}
+	// })
 }

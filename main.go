@@ -5,19 +5,13 @@ import (
 	"time"
 
 	"libdb.so/led-skirt/internal/animation"
+	"libdb.so/led-skirt/internal/colors"
 	"tinygo.org/x/drivers/ws2812"
 )
 
-const maxBrightness = 0xFF / 4 // operate at 25% brightness
-
-var animationDuration = 5 * time.Second
-var animationFunc animation.AnimationFunc = animation.NewBreathingAnimation(
-	animation.RGB{R: maxBrightness, G: maxBrightness, B: maxBrightness},
-	animation.BreatheSine,
-)
-
-const frameRate = 30 // operate at 30 FPS
-const numLEDs = 30   // 30 LEDs in the skirt
+const brightness = 0.25 // operate at 25% brightness
+const frameRate = 30    // operate at 30 FPS
+const numLEDs = 30      // 30 LEDs in the skirt
 
 func main() {
 	// machine.LED.Configure(machine.PinConfig{Mode: machine.PinOutput})
@@ -36,10 +30,10 @@ func main() {
 	}
 }
 
-func drawColor(led ws2812.Device, c animation.RGB) {
+func drawColor(led ws2812.Device, c colors.RGB) {
 	for i := 0; i < numLEDs; i++ {
+		led.WriteByte(c.G) // WS2812 LEDs are GRB
 		led.WriteByte(c.R)
-		led.WriteByte(c.G)
 		led.WriteByte(c.B)
 	}
 }

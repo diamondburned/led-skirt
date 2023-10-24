@@ -10,16 +10,16 @@ type RGB struct {
 // within the range of 0-255.
 func ScaleBrightness(c RGB, scale float32) RGB {
 	return RGB{
-		R: ScaleValue(c.R, scale),
-		G: ScaleValue(c.G, scale),
-		B: ScaleValue(c.B, scale),
+		R: ScaleColor(c.R, scale),
+		G: ScaleColor(c.G, scale),
+		B: ScaleColor(c.B, scale),
 	}
 }
 
-// ScaleValue returns a new uint8 value with the brightness scaled by the given
-// scale factor. It ensures that the resulting value is within the range of
-// 0-255.
-func ScaleValue(v uint8, scale float32) uint8 {
+// ScaleColor returns a new uint8 color value with the brightness scaled by the
+// given scale factor. It ensures that the resulting value is within the range
+// of 0-255.
+func ScaleColor(v uint8, scale float32) uint8 {
 	scaled := float32(v) * scale
 	if scaled > 255 {
 		return 255

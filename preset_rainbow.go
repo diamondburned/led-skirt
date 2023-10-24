@@ -7,6 +7,7 @@ import (
 
 	"libdb.so/led-skirt/internal/animation"
 	"libdb.so/led-skirt/internal/colors"
+	"libdb.so/led-skirt/internal/maths"
 )
 
 func init() {
@@ -18,14 +19,12 @@ func newRainbowAnimation() animation.AnimationFunc {
 	hsv := colors.HSV{
 		H: 0,
 		S: 0xFF,
-		V: colors.ScaleValue(0xFF, brightness),
+		V: colors.ScaleColor(0xFF, brightness),
 	}
 
 	return func(d, max animation.Milliseconds) colors.RGB {
-		t := animation.CalculateDurationInU16(d, max)
-
 		hsv := colors.HSV{
-			H: colors.ScaleHue(t),
+			H: maths.ScaleValue0(d, max, colors.MaxHue),
 			S: hsv.S,
 			V: hsv.V,
 		}

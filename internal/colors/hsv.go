@@ -8,13 +8,7 @@ type HSV struct {
 }
 
 // MaxHue defines the maximum value of the hue channel.
-const MaxHue = hsvHueSteps - 1
-
-// ScaleHue scales the hue value from a uint16 range [0x0000, 0xFFFF] to a
-// uint16 range [0, MaxHue].
-func ScaleHue(v uint16) uint16 {
-	return uint16(uint32(v) * MaxHue / 0xFFFF)
-}
+const MaxHue uint16 = hsvHueSteps - 1
 
 // ToRGB converts the HSV color to RGB.
 func (hsv HSV) ToRGB() RGB {
